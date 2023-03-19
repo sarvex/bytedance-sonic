@@ -133,13 +133,13 @@ const (
 )
 
 const (
-    _entry__f32toa = 43072
+    _entry__f32toa = 43296
     _entry__f64toa = 800
-    _entry__format_significand = 46464
+    _entry__format_significand = 46688
     _entry__format_integer = 3648
     _entry__fsm_exec = 22144
     _entry__advance_string = 18528
-    _entry__advance_string_default = 47904
+    _entry__advance_string_default = 48128
     _entry__do_skip_number = 25552
     _entry__get_by_path = 31776
     _entry__skip_one_fast = 27936
@@ -154,15 +154,15 @@ const (
     _entry__skip_one = 27392
     _entry__unquote = 8368
     _entry__validate_one = 27440
-    _entry__validate_utf8 = 39488
-    _entry__validate_utf8_fast = 40432
+    _entry__validate_utf8 = 39696
+    _entry__validate_utf8_fast = 40656
     _entry__value = 16064
     _entry__vnumber = 19664
     _entry__atof_eisel_lemire64 = 13104
     _entry__atof_native = 15248
     _entry__decimal_to_f64 = 13536
-    _entry__right_shift = 47424
-    _entry__left_shift = 46928
+    _entry__right_shift = 47648
+    _entry__left_shift = 47152
     _entry__vsigned = 21216
     _entry__vstring = 18304
     _entry__vunsigned = 21536
@@ -177,7 +177,7 @@ const (
     _size__advance_string = 1088
     _size__advance_string_default = 768
     _size__do_skip_number = 1360
-    _size__get_by_path = 7712
+    _size__get_by_path = 7920
     _size__skip_one_fast = 3144
     _size__html_escape = 2064
     _size__i64toa = 48
@@ -190,7 +190,7 @@ const (
     _size__skip_one = 48
     _size__unquote = 2480
     _size__validate_one = 48
-    _size__validate_utf8 = 672
+    _size__validate_utf8 = 688
     _size__validate_utf8_fast = 2608
     _size__value = 1736
     _size__vnumber = 1552
@@ -332,14 +332,14 @@ var (
         {12, 32},
         {13, 40},
         {17, 48},
-        {7591, 88},
-        {7592, 48},
-        {7594, 40},
-        {7596, 32},
-        {7598, 24},
-        {7600, 16},
-        {7601, 8},
-        {7712, 88},
+        {7805, 88},
+        {7806, 48},
+        {7808, 40},
+        {7810, 32},
+        {7812, 24},
+        {7814, 16},
+        {7815, 8},
+        {7920, 88},
     }
     _pcsp__skip_one_fast = [][2]uint32{
         {1, 0},
@@ -476,7 +476,7 @@ var (
         {632, 24},
         {634, 16},
         {635, 8},
-        {672, 48},
+        {688, 48},
     }
     _pcsp__validate_utf8_fast = [][2]uint32{
         {1, 0},
