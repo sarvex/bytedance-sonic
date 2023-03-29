@@ -546,6 +546,7 @@ func TestRecover_get_by_path(t *testing.T) {
 	var v = []interface{}{}
 	var sp = "123"
 	var p = 0
+	var m = types.NewStateMachine()
 	t.Run("sp", func(t *testing.T) {
 		defer func() {
 			if r := recover(); r!= nil {
@@ -554,7 +555,7 @@ func TestRecover_get_by_path(t *testing.T) {
 				t.Fatal("no panic")
 			}
 		}()
-		_ = get_by_path(nil, &p, &v)
+		_ = get_by_path(nil, &p, &v, m)
 	})
 	t.Run("p", func(t *testing.T) {
 		defer func() {
@@ -564,7 +565,7 @@ func TestRecover_get_by_path(t *testing.T) {
 				t.Fatal("no panic")
 			}
 		}()
-		_ = get_by_path(&sp, nil, &v)
+		_ = get_by_path(&sp, nil, &v, m)
 	})
 	t.Run("path", func(t *testing.T) {
 		defer func() {
@@ -574,7 +575,17 @@ func TestRecover_get_by_path(t *testing.T) {
 				t.Fatal("no panic")
 			}
 		}()
-		_ = get_by_path(&sp, &p, nil)
+		_ = get_by_path(&sp, &p, nil, m)
+	})
+	t.Run("m", func(t *testing.T) {
+		defer func() {
+			if r := recover(); r!= nil {
+				t.Log("recover: ", r)
+			} else {
+				t.Fatal("no panic")
+			}
+		}()
+		_ = get_by_path(&sp, &p, &v, nil)
 	})
 }
 

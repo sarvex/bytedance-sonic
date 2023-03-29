@@ -601,7 +601,7 @@ func TestNative_GetByPath(t *testing.T) {
     s := `{"asdf": [null, true, false, 1, 2.0, -3]}, 1234.5`
     p := 0
     path := []interface{}{"asdf", 4}
-    ret := get_by_path(&s, &p, &path)
+    ret := get_by_path(&s, &p, &path, types.NewStateMachine())
     assert.Equal(t, strings.Index(s, "2.0"), ret)
 }
 
@@ -620,6 +620,8 @@ func BenchmarkNative_GetByPath(b *testing.B) {
         s := `{"asdf": [null, true, false, 1, 2.0, -3]}, 1234.5`
         p := 0
         path := []interface{}{"asdf", 3}
-        _ = get_by_path(&s, &p, &path)
+        sm := types.NewStateMachine()
+        _ = get_by_path(&s, &p, &path, sm)
+        types.FreeStateMachine(sm)
     }
 }

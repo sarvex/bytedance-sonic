@@ -107,7 +107,7 @@ const (
     _stack__advance_string = 64
     _stack__advance_string_default = 64
     _stack__do_skip_number = 48
-    _stack__get_by_path = 280
+    _stack__get_by_path = 296
     _stack__skip_one_fast = 192
     _stack__html_escape = 72
     _stack__i64toa = 16
@@ -135,37 +135,37 @@ const (
 )
 
 const (
-    _entry__f32toa = 28800
+    _entry__f32toa = 28928
     _entry__f64toa = 480
-    _entry__format_significand = 32192
+    _entry__format_significand = 32320
     _entry__format_integer = 3328
     _entry__fsm_exec = 18656
     _entry__advance_ns = 14192
     _entry__advance_string = 15056
-    _entry__advance_string_default = 33584
-    _entry__do_skip_number = 20944
-    _entry__get_by_path = 25664
-    _entry__skip_one_fast = 22576
+    _entry__advance_string_default = 33712
+    _entry__do_skip_number = 21024
+    _entry__get_by_path = 25744
+    _entry__skip_one_fast = 22656
     _entry__html_escape = 9200
     _entry__i64toa = 3760
     _entry__u64toa = 3872
     _entry__lspace = 80
     _entry__quote = 5152
     _entry__skip_array = 18608
-    _entry__skip_number = 22208
-    _entry__skip_object = 20608
-    _entry__skip_one = 22352
+    _entry__skip_number = 22288
+    _entry__skip_object = 20656
+    _entry__skip_one = 22432
     _entry__unquote = 6864
-    _entry__validate_one = 22400
-    _entry__validate_utf8 = 27552
-    _entry__validate_utf8_fast = 28224
+    _entry__validate_one = 22480
+    _entry__validate_utf8 = 27680
+    _entry__validate_utf8_fast = 28352
     _entry__value = 12608
     _entry__vnumber = 16384
     _entry__atof_eisel_lemire64 = 10448
     _entry__atof_native = 12000
     _entry__decimal_to_f64 = 10816
-    _entry__right_shift = 33152
-    _entry__left_shift = 32656
+    _entry__right_shift = 33280
+    _entry__left_shift = 32784
     _entry__vsigned = 17936
     _entry__vstring = 14880
     _entry__vunsigned = 18256
@@ -176,12 +176,12 @@ const (
     _size__f64toa = 2848
     _size__format_significand = 464
     _size__format_integer = 432
-    _size__fsm_exec = 1416
+    _size__fsm_exec = 1464
     _size__advance_ns = 688
     _size__advance_string = 1280
     _size__advance_string_default = 944
     _size__do_skip_number = 924
-    _size__get_by_path = 1888
+    _size__get_by_path = 1936
     _size__skip_one_fast = 2580
     _size__html_escape = 1248
     _size__i64toa = 48
@@ -270,15 +270,15 @@ var (
         {10, 32},
         {12, 40},
         {13, 48},
-        {1135, 88},
-        {1139, 48},
-        {1140, 40},
-        {1142, 32},
-        {1144, 24},
-        {1146, 16},
-        {1148, 8},
-        {1149, 0},
-        {1416, 88},
+        {1194, 88},
+        {1198, 48},
+        {1199, 40},
+        {1201, 32},
+        {1203, 24},
+        {1205, 16},
+        {1207, 8},
+        {1208, 0},
+        {1464, 88},
     }
     _pcsp__advance_ns = [][2]uint32{
         {1, 0},
@@ -350,15 +350,15 @@ var (
         {10, 32},
         {12, 40},
         {13, 48},
-        {1772, 88},
-        {1776, 48},
-        {1777, 40},
-        {1779, 32},
-        {1781, 24},
-        {1783, 16},
-        {1785, 8},
-        {1786, 0},
-        {1878, 88},
+        {1811, 104},
+        {1815, 48},
+        {1816, 40},
+        {1818, 32},
+        {1820, 24},
+        {1822, 16},
+        {1824, 8},
+        {1825, 0},
+        {1933, 104},
     }
     _pcsp__skip_one_fast = [][2]uint32{
         {1, 0},
