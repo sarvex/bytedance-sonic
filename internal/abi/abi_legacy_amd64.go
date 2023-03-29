@@ -134,14 +134,15 @@ func (self *Frame) StackCheckTextSize() uint32 {
 
     // get the current goroutine
     switch runtime.GOOS {
-        case "linux"  : p.MOVQ(Abs(-8), RCX).FS()
-        case "darwin" : p.MOVQ(Abs(0x30), RCX).GS()
+        case "linux"  : p.MOVQ(Abs(-8), R14).FS()
+        case "darwin" : p.MOVQ(Abs(0x30), R14).GS()
+        case "windows": break // windows always stores G pointer at R14 
         default       : panic("unsupported operating system")
     }
     
     // check the stack guard
     p.LEAQ(Ptr(RSP, -int32(self.Size())), RAX)
-    p.CMPQ(Ptr(RCX, _G_stackguard0), RAX)
+    p.CMPQ(Ptr(R14, _G_stackguard0), RAX)
     l := CreateLabel("")
     p.Link(l)
     p.JBE(l)
