@@ -17,17 +17,16 @@
 package loader
 
 import (
-	"os"
-	"runtime"
-	"runtime/debug"
-	"testing"
-	"time"
+    `os`
+    `runtime`
+    `runtime/debug`
+    `testing`
+    `time`
 
-	"github.com/stretchr/testify/require"
+    `github.com/stretchr/testify/require`
 )
 
 var (
-    debugSyncGC  = os.Getenv("SONIC_SYNC_GC") != ""
     debugAsyncGC = os.Getenv("SONIC_NO_ASYNC_GC") == ""
 )
 
@@ -63,17 +62,17 @@ func TestWrapC(t *testing.T) {
     }
     
     WrapGoC(ct, []CFunc{{
-		Name:     "add",
-		EntryOff: 0,
-		TextSize: uint32(len(ct)),
+        Name:     "add",
+        EntryOff: 0,
+        TextSize: uint32(len(ct)),
         MaxStack: uintptr(16),
-		Pcsp:     [][2]uint32{
+        Pcsp:     [][2]uint32{
             {uint32(len(ct)), 8},
         },
-	}}, []GoC{{
-		CName:     "add",
-		GoFunc:   &stub,
-	} }, "dummy/native", "dummy/native.c")
+    }}, []GoC{{
+        CName:     "add",
+        GoFunc:   &stub,
+    } }, "dummy/native", "dummy/native.c")
     
     // defer func(){
     //     if err := recover(); err!= nil {

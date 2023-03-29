@@ -26,10 +26,10 @@
 package abi
 
 import (
-	"fmt"
-	"reflect"
+    `fmt`
+    `reflect`
 
-	. "github.com/chenzhuoyu/iasm/x86_64"
+    . `github.com/chenzhuoyu/iasm/x86_64`
 )
 
 /** Frame Structure of the Generated Function
@@ -178,9 +178,9 @@ func (self *stackAlloc) alloc(p []Parameter, vt reflect.Type) []Parameter {
 func (self *stackAlloc) valloc(p []Parameter, vts ...reflect.Type) []Parameter {
     for _, vt := range vts { 
         enum := isFloat(vt)
-        if enum != EnumNotFloat && self.x < len(xregOrderGo) {
+        if enum != notFloatKind && self.x < len(xregOrderGo) {
             p = append(p, self.xreg(vt))
-        } else if enum == EnumNotFloat && self.i < len(iregOrderGo) {
+        } else if enum == notFloatKind && self.i < len(iregOrderGo) {
             p = append(p, self.ireg(vt))
         } else {
             p = append(p, self.stack(vt))
@@ -225,7 +225,7 @@ func (self *Frame) emitExchangeArgs(p *Program) {
     xregArgs := 0
     for _, v := range self.desc.Args {
         if v.InRegister {
-            if v.IsFloat != EnumNotFloat {
+            if v.IsFloat != notFloatKind {
                 xregArgs += 1
             } else {
                 iregArgs = append(iregArgs, v)
@@ -289,12 +289,12 @@ func (self *Frame) emitExchangeRets(p *Program) {
     }    
     // store result
     if len(self.desc.Rets) == 1 && !self.desc.Rets[0].InRegister {
-        if self.desc.Rets[0].IsFloat == EnumFloat64 {
-            p.MOVSD(xregOrderC[0], self.Retv(0))
-        } else if self.desc.Rets[0].IsFloat == EnumFloat32 {
-            p.MOVSS(xregOrderC[0], self.Retv(0))
+        if self.desc.Rets[0].IsFloat == floatKind64 {
+            p.MOVSD(xregOrderC[0], self.retv(0))
+        } else if self.desc.Rets[0].IsFloat == floatKind32 {
+            p.MOVSS(xregOrderC[0], self.retv(0))
         } else {
-            p.MOVQ(RAX, self.Retv(0))
+            p.MOVQ(RAX, self.retv(0))
         }
     }
 }
@@ -304,9 +304,9 @@ func (self *Frame) emitRestoreRegs(p *Program) {
     for i, r := range ReservedRegs(self.ccall) {
         switch r.(type) {
         case Register64:
-            p.MOVQ(self.Resv(i), r)
+            p.MOVQ(self.resv(i), r)
         case XMMRegister:
-            p.MOVSD(self.Resv(i), r)
+            p.MOVSD(self.resv(i), r)
         default:
             panic(fmt.Sprintf("unsupported register type %t to reserve", r))
         }

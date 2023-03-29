@@ -20,11 +20,11 @@
 package abi
 
 import (
-    "fmt"
-	"reflect"
-	"runtime"
+    `fmt`
+    `reflect`
+    `runtime`
 
-	. "github.com/chenzhuoyu/iasm/x86_64"
+    . `github.com/chenzhuoyu/iasm/x86_64`
 )
 
 func ReservedRegs(callc bool) []Register {
@@ -85,7 +85,7 @@ func NewFunctionLayout(ft reflect.Type) FunctionLayout {
 func (self *Frame) emitExchangeArgs(p *Program) {
     iregArgs, xregArgs := 0, 0
     for _, v := range self.desc.Args {
-        if v.IsFloat != EnumNotFloat {
+        if v.IsFloat != notFloatKind {
             xregArgs += 1
         } else {
             iregArgs += 1
@@ -102,14 +102,14 @@ func (self *Frame) emitExchangeArgs(p *Program) {
     ic, xc := iregArgs, xregArgs
     for i := 0; i < len(self.desc.Args); i++ {
         arg := self.desc.Args[i]
-        if arg.IsFloat == EnumFloat64 {
-            p.MOVSD(self.Argv(i), xregOrderC[xregArgs - xc])
+        if arg.IsFloat == floatKind64 {
+            p.MOVSD(self.argv(i), xregOrderC[xregArgs - xc])
             xc -= 1 
-        } else if arg.IsFloat == EnumFloat32 {
-            p.MOVSS(self.Argv(i), xregOrderC[xregArgs - xc])
+        } else if arg.IsFloat == floatKind32 {
+            p.MOVSS(self.argv(i), xregOrderC[xregArgs - xc])
             xc -= 1 
         } else {
-            p.MOVQ(self.Argv(i), iregOrderC[iregArgs - ic])
+            p.MOVQ(self.argv(i), iregOrderC[iregArgs - ic])
             ic -= 1
         }
     }
@@ -118,14 +118,15 @@ func (self *Frame) emitExchangeArgs(p *Program) {
 func (self *Frame) emitStackCheck(p *Program, to *Label, maxStack uintptr) {
     // get the current goroutine
     switch runtime.GOOS {
-        case "linux"  : p.MOVQ(Abs(-8), RCX).FS()
-        case "darwin" : p.MOVQ(Abs(0x30), RCX).GS()
+        case "linux"  : p.MOVQ(Abs(-8), R14).FS()
+        case "darwin" : p.MOVQ(Abs(0x30), R14).GS()
+        case "windows": break // windows always stores G pointer at R14 
         default       : panic("unsupported operating system")
     }
     
     // check the stack guard
     p.LEAQ(Ptr(RSP, -int32(self.Size() + uint32(maxStack))), RAX)
-    p.CMPQ(Ptr(RCX, _G_stackguard0), RAX)
+    p.CMPQ(Ptr(R14, _G_stackguard0), RAX)
     p.JBE(to)
 }
 
@@ -156,12 +157,12 @@ func (self *Frame) emitExchangeRets(p *Program) {
     }    
     // store result
     if len(self.desc.Rets) ==1 {
-        if self.desc.Rets[0].IsFloat == EnumFloat64 {
-            p.MOVSD(xregOrderC[0], self.Retv(0))
-        } else if self.desc.Rets[0].IsFloat == EnumFloat32 {
-            p.MOVSS(xregOrderC[0], self.Retv(0))
+        if self.desc.Rets[0].IsFloat == floatKind64 {
+            p.MOVSD(xregOrderC[0], self.retv(0))
+        } else if self.desc.Rets[0].IsFloat == floatKind32 {
+            p.MOVSS(xregOrderC[0], self.retv(0))
         } else {
-            p.MOVQ(RAX, self.Retv(0))
+            p.MOVQ(RAX, self.retv(0))
         }
     }
 }
@@ -171,9 +172,9 @@ func (self *Frame) emitRestoreRegs(p *Program) {
     for i, r := range ReservedRegs(self.ccall) {
         switch r.(type) {
         case Register64:
-            p.MOVQ(self.Resv(i), r)
+            p.MOVQ(self.resv(i), r)
         case XMMRegister:
-            p.MOVSD(self.Resv(i), r)
+            p.MOVSD(self.resv(i), r)
         default:
             panic(fmt.Sprintf("unsupported register type %t to reserve", r))
         }

@@ -17,12 +17,12 @@
 package abi
 
 import (
-	"fmt"
-	"reflect"
-	"sort"
-	"strings"
+    `fmt`
+    `reflect`
+    `sort`
+    `strings`
 
-	"github.com/bytedance/sonic/internal/rt"
+    `github.com/bytedance/sonic/internal/rt`
 )
 
 type FunctionLayout struct {

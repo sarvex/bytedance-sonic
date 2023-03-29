@@ -17,11 +17,11 @@
 package abi
 
 import (
-	"fmt"
-	"reflect"
-	"unsafe"
+    `fmt`
+    `reflect`
+    `unsafe`
 
-	. "github.com/chenzhuoyu/iasm/x86_64"
+    . `github.com/chenzhuoyu/iasm/x86_64`
 )
 
 const (
@@ -54,21 +54,21 @@ var (
     ptrType = reflect.TypeOf(unsafe.Pointer(nil))
 )
 
-func (self *Frame) Argv(i int) *MemoryOperand {
+func (self *Frame) argv(i int) *MemoryOperand {
     return Ptr(RSP, int32(self.Prev() + self.desc.Args[i].Mem))
 }
 
-// Spillv is used for growstack spill registers
-func (self *Frame) Spillv(i int) *MemoryOperand {
+// spillv is used for growstack spill registers
+func (self *Frame) spillv(i int) *MemoryOperand {
     // remain one slot for caller return pc
     return Ptr(RSP, PtrSize + int32(self.desc.Args[i].Mem))
 }
 
-func (self *Frame) Retv(i int) *MemoryOperand {
+func (self *Frame) retv(i int) *MemoryOperand {
     return Ptr(RSP, int32(self.Prev() + self.desc.Rets[i].Mem))
 }
 
-func (self *Frame) Resv(i int) *MemoryOperand {
+func (self *Frame) resv(i int) *MemoryOperand {
     return Ptr(RSP, int32(self.Offs() - uint32((i+1) * PtrSize)))
 }
 
@@ -76,12 +76,12 @@ func (self *Frame) emitGrowStack(p *Program, entry *Label) {
     // spill all register arguments
     for i, v := range self.desc.Args {
         if v.InRegister {
-            if v.IsFloat == EnumFloat64 {
-                p.MOVSD(v.Reg, self.Spillv(i))
-            } else if v.IsFloat == EnumFloat32 {
-                p.MOVSS(v.Reg, self.Spillv(i))
+            if v.IsFloat == floatKind64 {
+                p.MOVSD(v.Reg, self.spillv(i))
+            } else if v.IsFloat == floatKind32 {
+                p.MOVSS(v.Reg, self.spillv(i))
             }else {
-                p.MOVQ(v.Reg, self.Spillv(i))
+                p.MOVQ(v.Reg, self.spillv(i))
             }
         }
     }
@@ -92,12 +92,12 @@ func (self *Frame) emitGrowStack(p *Program, entry *Label) {
     // load all register arguments
     for i, v := range self.desc.Args {
         if v.InRegister {
-            if v.IsFloat == EnumFloat64 {
-                p.MOVSD(self.Spillv(i), v.Reg)
-            } else if v.IsFloat == EnumFloat32 {
-                p.MOVSS(self.Spillv(i), v.Reg)
+            if v.IsFloat == floatKind64 {
+                p.MOVSD(self.spillv(i), v.Reg)
+            } else if v.IsFloat == floatKind32 {
+                p.MOVSS(self.spillv(i), v.Reg)
             }else {
-                p.MOVQ(self.Spillv(i), v.Reg)
+                p.MOVQ(self.spillv(i), v.Reg)
             }
         }
     }
@@ -111,12 +111,12 @@ func (self *Frame) GrowStackTextSize() uint32 {
     // spill all register arguments
     for i, v := range self.desc.Args {
         if v.InRegister {
-            if v.IsFloat == EnumFloat64 {
-                p.MOVSD(v.Reg, self.Spillv(i))
-            } else if v.IsFloat == EnumFloat32 {
-                p.MOVSS(v.Reg, self.Spillv(i))
+            if v.IsFloat == floatKind64 {
+                p.MOVSD(v.Reg, self.spillv(i))
+            } else if v.IsFloat == floatKind32 {
+                p.MOVSS(v.Reg, self.spillv(i))
             }else {
-                p.MOVQ(v.Reg, self.Spillv(i))
+                p.MOVQ(v.Reg, self.spillv(i))
             }
         }
     }
@@ -127,12 +127,12 @@ func (self *Frame) GrowStackTextSize() uint32 {
     // load all register arguments
     for i, v := range self.desc.Args {
         if v.InRegister {
-            if v.IsFloat == EnumFloat64 {
-                p.MOVSD(self.Spillv(i), v.Reg)
-            } else if v.IsFloat == EnumFloat32 {
-                p.MOVSS(self.Spillv(i), v.Reg)
+            if v.IsFloat == floatKind64 {
+                p.MOVSD(self.spillv(i), v.Reg)
+            } else if v.IsFloat == floatKind32 {
+                p.MOVSS(self.spillv(i), v.Reg)
             } else {
-                p.MOVQ(self.Spillv(i), v.Reg)
+                p.MOVQ(self.spillv(i), v.Reg)
             }
         }
     }
@@ -162,9 +162,9 @@ func (self *Frame) emitReserveRegs(p *Program) {
     for i, r := range ReservedRegs(self.ccall) {
         switch r.(type) {
         case Register64:
-            p.MOVQ(r, self.Resv(i))
+            p.MOVQ(r, self.resv(i))
         case XMMRegister:
-            p.MOVSD(r, self.Resv(i))
+            p.MOVSD(r, self.resv(i))
         default:
             panic(fmt.Sprintf("unsupported register type %t to reserve", r))
         }
@@ -175,7 +175,7 @@ func (self *Frame) emitSpillPtrs(p *Program) {
     // spill pointer argument registers
     for i, r := range self.desc.Args {
         if r.InRegister && r.IsPointer {
-            p.MOVQ(r.Reg, self.Argv(i))
+            p.MOVQ(r.Reg, self.argv(i))
         }
     }
 }
@@ -184,7 +184,7 @@ func (self *Frame) emitClearPtrs(p *Program) {
     // spill pointer argument registers
     for i, r := range self.desc.Args {
         if r.InRegister && r.IsPointer {
-            p.MOVQ(int64(0), self.Argv(i))
+            p.MOVQ(int64(0), self.argv(i))
         }
     }
 }
@@ -194,18 +194,18 @@ func (self *Frame) emitCallC(p *Program, addr uintptr) {
     p.CALLQ(RAX)
 }
 
-type EnumFloat uint8
+type floatKind uint8
 
 const (
-    EnumNotFloat EnumFloat = iota
-    EnumFloat32
-    EnumFloat64
+    notFloatKind floatKind = iota
+    floatKind32
+    floatKind64
 )
 
 type Parameter struct {
     InRegister bool
     IsPointer  bool
-    IsFloat    EnumFloat
+    IsFloat    floatKind
     Reg        Register
     Mem        uint32
     Type       reflect.Type
@@ -219,14 +219,14 @@ func mkIReg(vt reflect.Type, reg Register64) (p Parameter) {
     return
 }
 
-func isFloat(vt reflect.Type) EnumFloat {
+func isFloat(vt reflect.Type) floatKind {
     switch vt.Kind() {
     case reflect.Float32:
-        return EnumFloat32
+        return floatKind32
     case reflect.Float64:
-        return EnumFloat64
+        return floatKind64
     default:
-        return EnumNotFloat
+        return notFloatKind
     }
 }
 
@@ -266,9 +266,7 @@ func CallC(addr uintptr, fr Frame, maxStack uintptr) []byte {
     fr.emitReserveRegs(p)
     fr.emitSpillPtrs(p)
     fr.emitExchangeArgs(p)
-    fr.emitDebug(p)
     fr.emitCallC(p, addr)
-    fr.emitDebug(p)
     fr.emitExchangeRets(p)
     fr.emitRestoreRegs(p)
     fr.emitEpilogue(p)
@@ -280,5 +278,5 @@ func CallC(addr uintptr, fr Frame, maxStack uintptr) []byte {
 
 
 func (self *Frame) emitDebug(p *Program) {
-    // p.INT(3)
+    p.INT(3)
 }
