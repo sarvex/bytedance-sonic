@@ -34,8 +34,34 @@ var (
 	debugAsyncGC = os.Getenv("SONIC_NO_ASYNC_GC") == ""
 )
 
+var stubs = []loader.GoC{
+    {"_f32toa", nil, &__f32toa},
+    {"_f64toa", nil, &__f64toa},
+    {"_fsm_exec", nil, &__fsm_exec},
+    {"_get_by_path", nil, &__get_by_path},
+    {"_html_escape", nil, &__html_escape},
+    {"_i64toa", nil, &__i64toa},
+    {"_lspace", nil, &__lspace},
+    {"_quote", nil, &__quote},
+    {"_skip_array", nil, &__skip_array},
+    {"_skip_number", nil, &__skip_number},
+    {"_skip_object", nil, &__skip_object},
+    {"_skip_one", nil, &__skip_one},
+    {"_skip_one_fast", nil, &__skip_one_fast},
+    {"_u64toa", nil, &__u64toa},
+    {"_unquote", nil, &__unquote},
+    {"_validate_one", nil, &__validate_one},
+    {"_validate_utf8", nil, &__validate_utf8},
+    {"_validate_utf8_fast", nil, &__validate_utf8_fast},
+    {"_value", nil,  &__value},
+    {"_vnumber", nil, &__vnumber},
+    {"_vsigned", nil, &__vsigned},
+    {"_vstring", nil, &__vstring},
+    {"_vunsigned", nil, &__vunsigned},
+}
+
 func TestMain(m *testing.M) {
-	loader.WrapGoC(Text__native_entry__, Funcs, Stubs, "avx2", "avx2/native.c")
+	loader.WrapGoC(Text__native_entry__, Funcs, stubs, "avx2", "avx2/native.c")
 	
 	go func ()  {
 		if !debugAsyncGC {

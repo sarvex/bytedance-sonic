@@ -7,94 +7,41 @@ import (
 	`github.com/bytedance/sonic/loader`
 )
 
-var Stubs = []loader.GoC{
-    {"_f32toa", &_subr__f32toa, &__f32toa},
-    {"_f64toa", &_subr__f64toa, &__f64toa},
-    {"_fsm_exec", &_subr__fsm_exec, &__fsm_exec},
-    {"_get_by_path", &_subr__get_by_path, &__get_by_path},
-    {"_html_escape", &_subr__html_escape, &__html_escape},
-    {"_i64toa", &_subr__i64toa, &__i64toa},
-    {"_lspace", &_subr__lspace, &__lspace},
-    {"_quote", &_subr__quote, &__quote},
-    {"_skip_array", &_subr__skip_array, &__skip_array},
-    {"_skip_number", &_subr__skip_number, &__skip_number},
-    {"_skip_object", &_subr__skip_object, &__skip_object},
-    {"_skip_one", &_subr__skip_one, &__skip_one},
-    {"_skip_one_fast", &_subr__skip_one_fast, &__skip_one_fast},
-    {"_u64toa", &_subr__u64toa, &__u64toa},
-    {"_unquote", &_subr__unquote, &__unquote},
-    {"_validate_one", &_subr__validate_one, &__validate_one},
-    {"_validate_utf8", &_subr__validate_utf8, &__validate_utf8},
-    {"_validate_utf8_fast", &_subr__validate_utf8_fast, &__validate_utf8_fast},
-    {"_value", &_subr__value, &__value},
-    {"_vnumber", &_subr__vnumber, &__vnumber},
-    {"_vsigned", &_subr__vsigned, &__vsigned},
-    {"_vstring", &_subr__vstring, &__vstring},
-    {"_vunsigned", &_subr__vunsigned, &__vunsigned},
-}
-
-var Funcs = []loader.CFunc{
-    {"__native_entry__", 0, 67, 0, nil},
-    {"_f32toa", _entry__f32toa, _size__f32toa, _stack__f32toa, _pcsp__f32toa},
-    {"_f64toa", _entry__f64toa, _size__f64toa, _stack__f64toa, _pcsp__f64toa},
-    {"_format_significand", _entry__format_significand, _size__format_significand, _stack__format_significand, _pcsp__format_significand},
-    {"_format_integer", _entry__format_integer, _size__format_integer, _stack__format_integer, _pcsp__format_integer},
-    {"_fsm_exec", _entry__fsm_exec, _size__fsm_exec, _stack__fsm_exec, _pcsp__fsm_exec},
-    {"_advance_ns", _entry__advance_ns, _size__advance_ns, _stack__advance_ns, _pcsp__advance_ns},
-    {"_advance_string", _entry__advance_string, _size__advance_string, _stack__advance_string, _pcsp__advance_string},
-    {"_advance_string_default", _entry__advance_string_default, _size__advance_string_default, _stack__advance_string_default, _pcsp__advance_string_default},
-    {"_do_skip_number", _entry__do_skip_number, _size__do_skip_number, _stack__do_skip_number, _pcsp__do_skip_number},
-    {"_get_by_path", _entry__get_by_path, _size__get_by_path, _stack__get_by_path, _pcsp__get_by_path},
-    {"_skip_one_fast", _entry__skip_one_fast, _size__skip_one_fast, _stack__skip_one_fast, _pcsp__skip_one_fast},
-    {"_html_escape", _entry__html_escape, _size__html_escape, _stack__html_escape, _pcsp__html_escape},
-    {"_i64toa", _entry__i64toa, _size__i64toa, _stack__i64toa, _pcsp__i64toa},
-    {"_u64toa", _entry__u64toa, _size__u64toa, _stack__u64toa, _pcsp__u64toa},
-    {"_lspace", _entry__lspace, _size__lspace, _stack__lspace, _pcsp__lspace},
-    {"_quote", _entry__quote, _size__quote, _stack__quote, _pcsp__quote},
-    {"_skip_array", _entry__skip_array, _size__skip_array, _stack__skip_array, _pcsp__skip_array},
-    {"_skip_number", _entry__skip_number, _size__skip_number, _stack__skip_number, _pcsp__skip_number},
-    {"_skip_object", _entry__skip_object, _size__skip_object, _stack__skip_object, _pcsp__skip_object},
-    {"_skip_one", _entry__skip_one, _size__skip_one, _stack__skip_one, _pcsp__skip_one},
-    {"_unquote", _entry__unquote, _size__unquote, _stack__unquote, _pcsp__unquote},
-    {"_validate_one", _entry__validate_one, _size__validate_one, _stack__validate_one, _pcsp__validate_one},
-    {"_validate_utf8", _entry__validate_utf8, _size__validate_utf8, _stack__validate_utf8, _pcsp__validate_utf8},
-    {"_validate_utf8_fast", _entry__validate_utf8_fast, _size__validate_utf8_fast, _stack__validate_utf8_fast, _pcsp__validate_utf8_fast},
-    {"_value", _entry__value, _size__value, _stack__value, _pcsp__value},
-    {"_vnumber", _entry__vnumber, _size__vnumber, _stack__vnumber, _pcsp__vnumber},
-    {"_atof_eisel_lemire64", _entry__atof_eisel_lemire64, _size__atof_eisel_lemire64, _stack__atof_eisel_lemire64, _pcsp__atof_eisel_lemire64},
-    {"_atof_native", _entry__atof_native, _size__atof_native, _stack__atof_native, _pcsp__atof_native},
-    {"_decimal_to_f64", _entry__decimal_to_f64, _size__decimal_to_f64, _stack__decimal_to_f64, _pcsp__decimal_to_f64},
-    {"_right_shift", _entry__right_shift, _size__right_shift, _stack__right_shift, _pcsp__right_shift},
-    {"_left_shift", _entry__left_shift, _size__left_shift, _stack__left_shift, _pcsp__left_shift},
-    {"_vsigned", _entry__vsigned, _size__vsigned, _stack__vsigned, _pcsp__vsigned},
-    {"_vstring", _entry__vstring, _size__vstring, _stack__vstring, _pcsp__vstring},
-    {"_vunsigned", _entry__vunsigned, _size__vunsigned, _stack__vunsigned, _pcsp__vunsigned},
-}
-
-var (
-    _subr__f32toa             uintptr
-    _subr__f64toa             uintptr
-    _subr__fsm_exec           uintptr
-    _subr__get_by_path        uintptr
-    _subr__html_escape        uintptr
-    _subr__i64toa             uintptr
-    _subr__lspace             uintptr
-    _subr__quote              uintptr
-    _subr__skip_array         uintptr
-    _subr__skip_number        uintptr
-    _subr__skip_object        uintptr
-    _subr__skip_one           uintptr
-    _subr__skip_one_fast      uintptr
-    _subr__u64toa             uintptr
-    _subr__unquote            uintptr
-    _subr__validate_one       uintptr
-    _subr__validate_utf8      uintptr
-    _subr__validate_utf8_fast uintptr
-    _subr__value              uintptr
-    _subr__vnumber            uintptr
-    _subr__vsigned            uintptr
-    _subr__vstring            uintptr
-    _subr__vunsigned          uintptr
+const (
+    _entry__f32toa = 29504
+    _entry__f64toa = 464
+    _entry__format_significand = 32832
+    _entry__format_integer = 3264
+    _entry__fsm_exec = 18768
+    _entry__advance_ns = 14240
+    _entry__advance_string = 15104
+    _entry__advance_string_default = 34224
+    _entry__do_skip_number = 21120
+    _entry__get_by_path = 26336
+    _entry__skip_one_fast = 22784
+    _entry__html_escape = 9216
+    _entry__i64toa = 3696
+    _entry__u64toa = 3824
+    _entry__lspace = 80
+    _entry__quote = 5136
+    _entry__skip_array = 18736
+    _entry__skip_number = 22416
+    _entry__skip_object = 20768
+    _entry__skip_one = 22560
+    _entry__unquote = 6880
+    _entry__validate_one = 22608
+    _entry__validate_utf8 = 28272
+    _entry__validate_utf8_fast = 28944
+    _entry__value = 12656
+    _entry__vnumber = 16496
+    _entry__atof_eisel_lemire64 = 10496
+    _entry__atof_native = 12048
+    _entry__decimal_to_f64 = 10864
+    _entry__right_shift = 33792
+    _entry__left_shift = 33296
+    _entry__vsigned = 18048
+    _entry__vstring = 14928
+    _entry__vunsigned = 18384
 )
 
 const (
@@ -132,43 +79,6 @@ const (
     _stack__vsigned = 16
     _stack__vstring = 120
     _stack__vunsigned = 8
-)
-
-const (
-    _entry__f32toa = 29504
-    _entry__f64toa = 464
-    _entry__format_significand = 32832
-    _entry__format_integer = 3264
-    _entry__fsm_exec = 18768
-    _entry__advance_ns = 14240
-    _entry__advance_string = 15104
-    _entry__advance_string_default = 34224
-    _entry__do_skip_number = 21120
-    _entry__get_by_path = 26336
-    _entry__skip_one_fast = 22784
-    _entry__html_escape = 9216
-    _entry__i64toa = 3696
-    _entry__u64toa = 3824
-    _entry__lspace = 80
-    _entry__quote = 5136
-    _entry__skip_array = 18736
-    _entry__skip_number = 22416
-    _entry__skip_object = 20768
-    _entry__skip_one = 22560
-    _entry__unquote = 6880
-    _entry__validate_one = 22608
-    _entry__validate_utf8 = 28272
-    _entry__validate_utf8_fast = 28944
-    _entry__value = 12656
-    _entry__vnumber = 16496
-    _entry__atof_eisel_lemire64 = 10496
-    _entry__atof_native = 12048
-    _entry__decimal_to_f64 = 10864
-    _entry__right_shift = 33792
-    _entry__left_shift = 33296
-    _entry__vsigned = 18048
-    _entry__vstring = 14928
-    _entry__vunsigned = 18384
 )
 
 const (
@@ -667,3 +577,41 @@ var (
         {322, 0},
     }
 )
+
+var Funcs = []loader.CFunc{
+    {"__native_entry__", 0, 67, 0, nil},
+    {"_f32toa", _entry__f32toa, _size__f32toa, _stack__f32toa, _pcsp__f32toa},
+    {"_f64toa", _entry__f64toa, _size__f64toa, _stack__f64toa, _pcsp__f64toa},
+    {"_format_significand", _entry__format_significand, _size__format_significand, _stack__format_significand, _pcsp__format_significand},
+    {"_format_integer", _entry__format_integer, _size__format_integer, _stack__format_integer, _pcsp__format_integer},
+    {"_fsm_exec", _entry__fsm_exec, _size__fsm_exec, _stack__fsm_exec, _pcsp__fsm_exec},
+    {"_advance_ns", _entry__advance_ns, _size__advance_ns, _stack__advance_ns, _pcsp__advance_ns},
+    {"_advance_string", _entry__advance_string, _size__advance_string, _stack__advance_string, _pcsp__advance_string},
+    {"_advance_string_default", _entry__advance_string_default, _size__advance_string_default, _stack__advance_string_default, _pcsp__advance_string_default},
+    {"_do_skip_number", _entry__do_skip_number, _size__do_skip_number, _stack__do_skip_number, _pcsp__do_skip_number},
+    {"_get_by_path", _entry__get_by_path, _size__get_by_path, _stack__get_by_path, _pcsp__get_by_path},
+    {"_skip_one_fast", _entry__skip_one_fast, _size__skip_one_fast, _stack__skip_one_fast, _pcsp__skip_one_fast},
+    {"_html_escape", _entry__html_escape, _size__html_escape, _stack__html_escape, _pcsp__html_escape},
+    {"_i64toa", _entry__i64toa, _size__i64toa, _stack__i64toa, _pcsp__i64toa},
+    {"_u64toa", _entry__u64toa, _size__u64toa, _stack__u64toa, _pcsp__u64toa},
+    {"_lspace", _entry__lspace, _size__lspace, _stack__lspace, _pcsp__lspace},
+    {"_quote", _entry__quote, _size__quote, _stack__quote, _pcsp__quote},
+    {"_skip_array", _entry__skip_array, _size__skip_array, _stack__skip_array, _pcsp__skip_array},
+    {"_skip_number", _entry__skip_number, _size__skip_number, _stack__skip_number, _pcsp__skip_number},
+    {"_skip_object", _entry__skip_object, _size__skip_object, _stack__skip_object, _pcsp__skip_object},
+    {"_skip_one", _entry__skip_one, _size__skip_one, _stack__skip_one, _pcsp__skip_one},
+    {"_unquote", _entry__unquote, _size__unquote, _stack__unquote, _pcsp__unquote},
+    {"_validate_one", _entry__validate_one, _size__validate_one, _stack__validate_one, _pcsp__validate_one},
+    {"_validate_utf8", _entry__validate_utf8, _size__validate_utf8, _stack__validate_utf8, _pcsp__validate_utf8},
+    {"_validate_utf8_fast", _entry__validate_utf8_fast, _size__validate_utf8_fast, _stack__validate_utf8_fast, _pcsp__validate_utf8_fast},
+    {"_value", _entry__value, _size__value, _stack__value, _pcsp__value},
+    {"_vnumber", _entry__vnumber, _size__vnumber, _stack__vnumber, _pcsp__vnumber},
+    {"_atof_eisel_lemire64", _entry__atof_eisel_lemire64, _size__atof_eisel_lemire64, _stack__atof_eisel_lemire64, _pcsp__atof_eisel_lemire64},
+    {"_atof_native", _entry__atof_native, _size__atof_native, _stack__atof_native, _pcsp__atof_native},
+    {"_decimal_to_f64", _entry__decimal_to_f64, _size__decimal_to_f64, _stack__decimal_to_f64, _pcsp__decimal_to_f64},
+    {"_right_shift", _entry__right_shift, _size__right_shift, _stack__right_shift, _pcsp__right_shift},
+    {"_left_shift", _entry__left_shift, _size__left_shift, _stack__left_shift, _pcsp__left_shift},
+    {"_vsigned", _entry__vsigned, _size__vsigned, _stack__vsigned, _pcsp__vsigned},
+    {"_vstring", _entry__vstring, _size__vstring, _stack__vstring, _pcsp__vstring},
+    {"_vunsigned", _entry__vunsigned, _size__vunsigned, _stack__vunsigned, _pcsp__vunsigned},
+}
