@@ -17,17 +17,17 @@
 package utf8
 
 import (
-	"bytes"
-	"math/rand"
-	"os"
-	"runtime"
-	"runtime/debug"
-	"strings"
-	"testing"
-	"time"
-	"unicode/utf8"
+    `bytes`
+    `math/rand`
+    `os`
+    `runtime`
+    `runtime/debug`
+    `strings`
+    `testing`
+    `time`
+    `unicode/utf8`
 
-	"github.com/stretchr/testify/assert"
+    `github.com/stretchr/testify/assert`
 )
 
 var (

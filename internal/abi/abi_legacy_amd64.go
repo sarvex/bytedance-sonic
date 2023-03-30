@@ -120,7 +120,7 @@ func (self *Frame) emitStackCheck(p *Program, to *Label, maxStack uintptr) {
     switch runtime.GOOS {
         case "linux"  : p.MOVQ(Abs(-8), R14).FS()
         case "darwin" : p.MOVQ(Abs(0x30), R14).GS()
-        case "windows": break // windows always stores G pointer at R14 
+        case "windows": p.MOVQ(Abs(-8), R14).FS() // windows always stores G pointer at R14 
         default       : panic("unsupported operating system")
     }
     
@@ -137,7 +137,7 @@ func (self *Frame) StackCheckTextSize() uint32 {
     switch runtime.GOOS {
         case "linux"  : p.MOVQ(Abs(-8), R14).FS()
         case "darwin" : p.MOVQ(Abs(0x30), R14).GS()
-        case "windows": break // windows always stores G pointer at R14 
+        case "windows": p.MOVQ(Abs(-8), R14).FS() // windows always stores G pointer at R14 
         default       : panic("unsupported operating system")
     }
     
