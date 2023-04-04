@@ -1,6 +1,3 @@
-//go:build go1.16 && amd64
-// +build go1.16,amd64
-
 /*
  * Copyright 2021 ByteDance Inc.
  *

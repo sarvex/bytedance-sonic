@@ -26,14 +26,25 @@ import (
 
 var _C_Redzone = []bool{false, false, false, false}
 
+// CFunc is a function information for C func
 type CFunc struct {
+    // C function name
     Name     string
+
+    // entry pc relative to entire text segment
     EntryOff uint32
+
+    // function text size in bytes
     TextSize uint32
+
+    // maximum stack depth of the function
     MaxStack uintptr
+
+    // PC->SP delta lists of the function
     Pcsp     [][2]uint32
 }
 
+// GoC is the wrapper for Go calls to C
 type GoC struct {
     // CName is the name of corresponding C function
     CName     string
@@ -51,6 +62,7 @@ type GoC struct {
     GoFunc   interface{} 
 }
 
+// WrapGoC wraps C functions and loader it into Go stubs
 func WrapGoC(text []byte, natives []CFunc, stubs []GoC, modulename string, filename string) {
     funcs := make([]Func, len(natives))
     
