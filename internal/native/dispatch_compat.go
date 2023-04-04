@@ -1,5 +1,5 @@
-//go:build go1.16 && amd64
-// +build go1.16,amd64
+//go:build !go1.16 || !amd64
+// +build !go1.16 !amd64
 
 /*
  * Copyright 2021 ByteDance Inc.
@@ -22,13 +22,8 @@ package native
 import (
     `unsafe`
 
-    `github.com/bytedance/sonic/internal/cpu`
-    `github.com/bytedance/sonic/internal/native/avx`
-    `github.com/bytedance/sonic/internal/native/avx2`
-    `github.com/bytedance/sonic/internal/native/sse`
     `github.com/bytedance/sonic/internal/native/types`
     `github.com/bytedance/sonic/internal/rt`
-    `github.com/bytedance/sonic/loader`
 )
 
 const (
@@ -164,53 +159,4 @@ func ValidateUTF8(s *string, p *int, m *types.StateMachine) (ret int) {
 //go:nosplit
 func ValidateUTF8Fast(s *string) (ret int) {
     return __ValidateUTF8Fast(rt.NoEscape(unsafe.Pointer(s)))
-}
-
-var stubs = []loader.GoC{
-    {"_f64toa", &S_f64toa, &__F64toa},
-    {"_f32toa", &S_f32toa, nil},
-    {"_i64toa", &S_i64toa, &__I64toa},
-    {"_u64toa", &S_u64toa, &__U64toa},
-    {"_lspace", &S_lspace, nil},
-    {"_quote", &S_quote, &__Quote},
-    {"_unquote", &S_unquote, &__Unquote},
-    {"_html_escape", &S_html_escape, &__HTMLEscape},
-    {"_value", &S_value, &__Value},
-    {"_vstring", &S_vstring, nil},
-    {"_vnumber", &S_vnumber, nil},
-    {"_vsigned", &S_vsigned, nil},
-    {"_vunsigned", &S_vunsigned, nil},
-    {"_skip_one", &S_skip_one, &__SkipOne},
-    {"_skip_one_fast", &S_skip_one_fast, &__SkipOneFast},
-    {"_get_by_path", &S_get_by_path, &__GetByPath},
-    {"_skip_array", &S_skip_array, nil},
-    {"_skip_object", &S_skip_object, nil},
-    {"_skip_number", &S_skip_number, nil},
-    {"_validate_one", &S_validate_one, &__ValidateOne},
-    {"_validate_utf8", &S_validate_utf8, &__ValidateUTF8},
-    {"_validate_utf8_fast", &S_validate_utf8_fast, &__ValidateUTF8Fast},
-}
-
-func useAVX() {
-    loader.WrapGoC(avx.Text__native_entry__, avx.Funcs, stubs, "avx", "avx/native.c")
-}
-
-func useAVX2() {
-    loader.WrapGoC(avx2.Text__native_entry__, avx2.Funcs, stubs, "avx2", "avx2/native.c")
-}
-
-func useSSE() {
-    loader.WrapGoC(sse.Text__native_entry__, sse.Funcs, stubs, "sse", "sse/native.c")
-}
-
-func init() {
-    if cpu.HasAVX2 {
-        useAVX2()
-    } else if cpu.HasAVX {
-        useAVX()
-    } else if cpu.HasSSE {
-        useSSE()
-    } else {
-        panic("Unsupported CPU, maybe it's too old to run Sonic.")
-    }
 }
