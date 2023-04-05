@@ -401,7 +401,7 @@ func makePctab(funcs []Func, cuOffset uint32, nameOffset []int32) (pctab []byte,
             var ab []byte
             var err error
             if pc != nil {
-                ab, err = pc.MarshalBinary()
+                ab, err = pc.MarshalBinary(f.EntryOff+f.TextSize)
                 if err != nil {
                     panic(err)
                 }
