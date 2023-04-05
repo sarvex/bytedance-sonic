@@ -79,19 +79,19 @@ func WrapGoC(text []byte, natives []CFunc, stubs []GoC, modulename string, filen
         }
         // NOTICE: always forbid async preempt
         fn.PcUnsafePoint = &Pcdata{
-            {PC: f.TextSize, Val: PCDATA_UnsafePointUnsafe},
+            {PC: 1, Val: PCDATA_UnsafePointUnsafe},
         }
         // NOTICE: always refer to first file
         fn.Pcfile = &Pcdata{
-            {PC: f.TextSize, Val: 0},
+            {PC: 1, Val: 0},
         }
         // NOTICE: always refer to first line
         fn.Pcline = &Pcdata{
-            {PC: f.TextSize, Val: 1},
+            {PC: 1, Val: 1},
         }
         // NOTICE: copystack need locals stackmap
         fn.PcStackMapIndex = &Pcdata{
-            {PC: f.TextSize, Val: 0},
+            {PC: 1, Val: 0},
         }
         sm := rt.StackMapBuilder{}
         sm.AddField(false)
@@ -145,26 +145,25 @@ func WrapGoC(text []byte, natives []CFunc, stubs []GoC, modulename string, filen
 
             // add check-stack and grow-stack texts' pcsp
             fn.Pcsp = &Pcdata{
-                {PC: uint32(frame.StackCheckTextSize()), Val: 0},
-                {PC: size - uint32(frame.GrowStackTextSize()), Val: int32(frame.Size())},
-                {PC: size, Val: 0},
+                {PC: uint32(frame.StackCheckTextSize()), Val: int32(frame.Size())},
+                {PC: size - uint32(frame.GrowStackTextSize()), Val: 0},
             }
             // NOTICE: always refer to first file
             fn.Pcfile = &Pcdata{
-                {PC: size, Val: 0},
+                {PC: 1, Val: 0},
             }
             // NOTICE: always refer to first line
             fn.Pcline = &Pcdata{
-                {PC: size, Val: 1},
+                {PC: 1, Val: 1},
             }
             // NOTICE: always forbid async preempt
             fn.PcUnsafePoint = &Pcdata{
-                {PC: size, Val: PCDATA_UnsafePointUnsafe},
+                {PC: 1, Val: PCDATA_UnsafePointUnsafe},
             }
 
             // register pointer stackmaps
             fn.PcStackMapIndex = &Pcdata{
-                {PC: size, Val: 0},
+                {PC: 1, Val: 0},
             }
             fn.ArgsPointerMaps = frame.ArgPtrs()
             fn.LocalsPointerMaps = frame.LocalPtrs()

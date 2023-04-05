@@ -67,7 +67,7 @@ func TestWrapC(t *testing.T) {
         TextSize: uint32(len(ct)),
         MaxStack: uintptr(16),
         Pcsp:     [][2]uint32{
-            {uint32(len(ct)), 8},
+            {1, 8},
         },
     }}, []GoC{{
         CName:     "add",
