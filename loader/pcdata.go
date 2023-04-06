@@ -54,18 +54,21 @@ const (
 
 var emptyByte byte
 
-// Pcvalue is the last program count corresponding to the value Val,
-// which means that ** (previousPcvalue.PC, currentPcvalue.PC] **
-// is the range where the value is effective.
+// Pcvalue is the program count corresponding to the value Val
+//   WARN: we use relative value here (to function entry)
 type Pcvalue struct {
-    PC  uint32 // the **LAST** PC corresponding to the Value
-    Val int32  // the Value
+    PC  uint32 // program count relative to function entry
+    Val int32  // value relative to the value in function entry
 }
 
-// Pcdata represents pc->value mapping table
+// Pcdata represents pc->value mapping table.
+//   WARN: we use ** [Pcdata[i].PC, Pcdata[i+1].PC) **
+//   as the range where the Pcdata[i].Val is effective.
 type Pcdata []Pcvalue
 
-// Document: https://docs.google.com/document/d/1lyPIbmsYbXnpNj57a261hgOYVpNRcgydurVQIyZOz_o/pub
+// MarshalBinary calculates the delta value and PC range of Pcdata and sserializes it into byte slice
+//   - Document: https://docs.google.com/document/d/1lyPIbmsYbXnpNj57a261hgOYVpNRcgydurVQIyZOz_o/pub
+//   - Implementation: https://github.com/golang/go/blob/master/src/cmd/internal/obj/pcln.go#L25-L26
 func (self Pcdata) MarshalBinary(maxpc uint32) (data []byte, err error) {
     buf := make([]byte, binary.MaxVarintLen32)
 
@@ -84,9 +87,6 @@ func (self Pcdata) MarshalBinary(maxpc uint32) (data []byte, err error) {
             panic(fmt.Sprintf("invalid pc %d, must be larger than the previous!", v.PC))
         }
         dp := v.PC - sp
-        if dp == 0 {
-            continue
-        }
 
         if started {
             n := binary.PutUvarint(buf, uint64(dp))
