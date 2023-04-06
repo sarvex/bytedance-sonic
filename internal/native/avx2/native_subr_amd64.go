@@ -80,39 +80,39 @@ const (
 )
 
 const (
-    _size__f32toa = 3392
-    _size__f64toa = 2848
-    _size__format_significand = 464
-    _size__format_integer = 432
-    _size__fsm_exec = 2236
-    _size__advance_string = 1088
-    _size__advance_string_default = 768
-    _size__do_skip_number = 1360
-    _size__get_by_path = 7920
-    _size__skip_one_fast = 3144
-    _size__html_escape = 2064
-    _size__i64toa = 48
-    _size__u64toa = 1248
-    _size__lspace = 544
-    _size__quote = 2736
-    _size__skip_array = 64
-    _size__skip_number = 144
-    _size__skip_object = 48
-    _size__skip_one = 48
-    _size__unquote = 2480
-    _size__validate_one = 48
-    _size__validate_utf8 = 688
-    _size__validate_utf8_fast = 2608
-    _size__value = 1736
-    _size__vnumber = 1552
-    _size__atof_eisel_lemire64 = 368
-    _size__atof_native = 624
-    _size__decimal_to_f64 = 1712
-    _size__right_shift = 416
-    _size__left_shift = 496
-    _size__vsigned = 320
-    _size__vstring = 128
-    _size__vunsigned = 336
+    _size__f32toa = 3380
+    _size__f64toa = 2838
+    _size__format_significand = 457
+    _size__format_integer = 426
+    _size__fsm_exec = 2231
+    _size__advance_string = 1073
+    _size__advance_string_default = 752
+    _size__do_skip_number = 1348
+    _size__get_by_path = 7900
+    _size__skip_one_fast = 3136
+    _size__html_escape = 2063
+    _size__i64toa = 36
+    _size__u64toa = 1227
+    _size__lspace = 514
+    _size__quote = 2726
+    _size__skip_array = 29
+    _size__skip_number = 134
+    _size__skip_object = 29
+    _size__skip_one = 31
+    _size__unquote = 2459
+    _size__validate_one = 36
+    _size__validate_utf8 = 661
+    _size__validate_utf8_fast = 2589
+    _size__value = 1728
+    _size__vnumber = 1542
+    _size__atof_eisel_lemire64 = 357
+    _size__atof_native = 593
+    _size__decimal_to_f64 = 1697
+    _size__right_shift = 398
+    _size__left_shift = 475
+    _size__vsigned = 319
+    _size__vstring = 118
+    _size__vunsigned = 322
 )
 
 var (
@@ -264,12 +264,13 @@ var (
         {12, 40},
         {13, 48},
         {20, 176},
-        {1168, 168},
-        {1170, 160},
-        {1172, 152},
-        {1174, 144},
-        {1176, 136},
-        {1177, 128},
+        {1167, 48},
+        {1168, 40},
+        {1170, 32},
+        {1172, 24},
+        {1174, 16},
+        {1176, 8},
+        {1177, 0},
         {1181, 176},
     }
     _pcsp__html_escape = [][2]uint32{
@@ -337,7 +338,6 @@ var (
     _pcsp__skip_array = [][2]uint32{
         {0, 0},
         {1, 8},
-        {29, 0},
     }
     _pcsp__skip_number = [][2]uint32{
         {0, 0},
@@ -356,12 +356,10 @@ var (
     _pcsp__skip_object = [][2]uint32{
         {0, 0},
         {1, 8},
-        {29, 0},
     }
     _pcsp__skip_one = [][2]uint32{
         {0, 0},
         {1, 8},
-        {31, 0},
     }
     _pcsp__unquote = [][2]uint32{
         {0, 0},
@@ -384,7 +382,6 @@ var (
     _pcsp__validate_one = [][2]uint32{
         {0, 0},
         {1, 8},
-        {36, 0},
     }
     _pcsp__validate_utf8 = [][2]uint32{
         {0, 0},
@@ -407,11 +404,13 @@ var (
         {1, 8},
         {5, 16},
         {12, 176},
-        {1739, 168},
-        {1740, 160},
+        {1738, 16},
+        {1739, 8},
+        {1740, 0},
         {1744, 176},
-        {2019, 168},
-        {2020, 160},
+        {2018, 16},
+        {2019, 8},
+        {2020, 0},
         {2024, 176},
     }
     _pcsp__value = [][2]uint32{
@@ -508,7 +507,6 @@ var (
         {471, 16},
         {473, 8},
         {474, 0},
-        {475, 24},
     }
     _pcsp__vsigned = [][2]uint32{
         {0, 0},
