@@ -91,7 +91,7 @@ const (
     _size__advance_string = 1334
     _size__advance_string_default = 950
     _size__do_skip_number = 951
-    _size__get_by_path = 1928
+    _size__get_by_path = 1932
     _size__skip_one_fast = 3040
     _size__html_escape = 1271
     _size__i64toa = 36
@@ -112,7 +112,7 @@ const (
     _size__atof_native = 593
     _size__decimal_to_f64 = 1164
     _size__right_shift = 398
-    _size__left_shift = 475
+    _size__left_shift = 481
     _size__vsigned = 335
     _size__vstring = 118
     _size__vunsigned = 322
@@ -351,6 +351,7 @@ var (
     _pcsp__skip_array = [][2]uint32{
         {0, 0},
         {1, 8},
+        {27, 0},
     }
     _pcsp__skip_number = [][2]uint32{
         {0, 0},
@@ -369,10 +370,12 @@ var (
     _pcsp__skip_object = [][2]uint32{
         {0, 0},
         {1, 8},
+        {27, 0},
     }
     _pcsp__skip_one = [][2]uint32{
         {0, 0},
         {1, 8},
+        {31, 0},
     }
     _pcsp__unquote = [][2]uint32{
         {0, 0},
@@ -395,6 +398,7 @@ var (
     _pcsp__validate_one = [][2]uint32{
         {0, 0},
         {1, 8},
+        {36, 0},
     }
     _pcsp__validate_utf8 = [][2]uint32{
         {0, 0},
@@ -518,6 +522,7 @@ var (
         {471, 16},
         {473, 8},
         {474, 0},
+        {475, 24},
     }
     _pcsp__vsigned = [][2]uint32{
         {0, 0},

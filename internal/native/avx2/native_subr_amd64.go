@@ -87,8 +87,8 @@ const (
     _size__fsm_exec = 2231
     _size__advance_string = 1073
     _size__advance_string_default = 752
-    _size__do_skip_number = 1348
-    _size__get_by_path = 7900
+    _size__do_skip_number = 1354
+    _size__get_by_path = 7901
     _size__skip_one_fast = 3136
     _size__html_escape = 2063
     _size__i64toa = 36
@@ -102,14 +102,14 @@ const (
     _size__unquote = 2459
     _size__validate_one = 36
     _size__validate_utf8 = 661
-    _size__validate_utf8_fast = 2589
+    _size__validate_utf8_fast = 2595
     _size__value = 1728
     _size__vnumber = 1542
     _size__atof_eisel_lemire64 = 357
     _size__atof_native = 593
     _size__decimal_to_f64 = 1697
     _size__right_shift = 398
-    _size__left_shift = 475
+    _size__left_shift = 481
     _size__vsigned = 319
     _size__vstring = 118
     _size__vunsigned = 322
@@ -338,6 +338,7 @@ var (
     _pcsp__skip_array = [][2]uint32{
         {0, 0},
         {1, 8},
+        {29, 0},
     }
     _pcsp__skip_number = [][2]uint32{
         {0, 0},
@@ -356,10 +357,12 @@ var (
     _pcsp__skip_object = [][2]uint32{
         {0, 0},
         {1, 8},
+        {29, 0},
     }
     _pcsp__skip_one = [][2]uint32{
         {0, 0},
         {1, 8},
+        {31, 0},
     }
     _pcsp__unquote = [][2]uint32{
         {0, 0},
@@ -382,6 +385,7 @@ var (
     _pcsp__validate_one = [][2]uint32{
         {0, 0},
         {1, 8},
+        {36, 0},
     }
     _pcsp__validate_utf8 = [][2]uint32{
         {0, 0},
@@ -507,6 +511,7 @@ var (
         {471, 16},
         {473, 8},
         {474, 0},
+        {475, 24},
     }
     _pcsp__vsigned = [][2]uint32{
         {0, 0},
