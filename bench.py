@@ -79,7 +79,7 @@ def compare(args, package):
     run("git checkout -- .")
     if current_branch != "main":
         run("git checkout main")
-    run("git pull --allow-unrelated-histories origin main")
+    # run("git pull --allow-unrelated-histories origin main")
 
     # benchmark main branch
     (fd, main) = tempfile.mkstemp(".main.txt")
