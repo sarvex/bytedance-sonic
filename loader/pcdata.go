@@ -1,3 +1,11 @@
+/*
+ * @Author: duanyi.aster duanyi.aster@bytedance.com
+ * @Date: 2023-04-19 11:46:53
+ * @LastEditors: duanyi.aster duanyi.aster@bytedance.com
+ * @LastEditTime: 2023-04-19 15:59:56
+ * @FilePath: /sonic/loader/pcdata.go
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 /**
  * Copyright 2023 ByteDance Inc.
  *
@@ -18,7 +26,6 @@ package loader
 
 import (
 	"encoding/binary"
-	"fmt"
 )
 
 const (
@@ -66,44 +73,27 @@ type Pcvalue struct {
 //   as the range where the Pcdata[i].Val is effective.
 type Pcdata []Pcvalue
 
-// MarshalBinary calculates the delta value and PC range of Pcdata and sserializes it into byte slice
-//   - Document: https://docs.google.com/document/d/1lyPIbmsYbXnpNj57a261hgOYVpNRcgydurVQIyZOz_o/pub
-//   - Implementation: https://github.com/golang/go/blob/master/src/cmd/internal/obj/pcln.go#L25-L26
-func (self Pcdata) MarshalBinary(maxpc uint32) (data []byte, err error) {
-    buf := make([]byte, binary.MaxVarintLen32)
-
+// see https://docs.google.com/document/d/1lyPIbmsYbXnpNj57a261hgOYVpNRcgydurVQIyZOz_o/pub
+func (self Pcdata) MarshalBinary() (data []byte, err error) {
     // delta value always starts from -1
     sv := int32(_PCDATA_START_VAL)
     sp := uint32(0)
-
-    // write value delta first, write pcdata last
-    started := false
+    buf := make([]byte, binary.MaxVarintLen32)
     for _, v := range self {
-        dv := v.Val - sv
-        if dv == 0 && started {
+        if v.PC < sp {
+            panic("PC must be in ascending order!")
+        }
+        dp := uint64(v.PC - sp)
+        dv := int64(v.Val - sv)
+        if dv == 0 || dp == 0 {
             continue
         }
-        if v.PC < sp {
-            panic(fmt.Sprintf("invalid pc %d, must be larger than the previous!", v.PC))
-        }
-        dp := v.PC - sp
-
-        if started {
-            n := binary.PutUvarint(buf, uint64(dp))
-            data = append(data, buf[:n]...)
-            sp = v.PC
-        }
-
-        n := binary.PutVarint(buf, int64(dv))
+        n := binary.PutVarint(buf, dv)
         data = append(data, buf[:n]...)
+        n2 := binary.PutUvarint(buf, dp)
+        data = append(data, buf[:n2]...)
+        sp = v.PC
         sv = v.Val
-        started = true
-    }
-
-    if started {
-        data = append(data, buf[:binary.PutUvarint(buf, uint64(maxpc - sp))]...)
-        // add terminating varint-encoded 0, which is just 0
-		data = append(data, 0)
     }
     return
 }

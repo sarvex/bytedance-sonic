@@ -45,22 +45,22 @@ func (self Loader) LoadOne(text []byte, funcName string, frameSize int, argSize 
 
     // NOTICE: suppose the function has fixed SP offset equaling to frameSize, thus make only one pcsp pair
     fn.Pcsp = &Pcdata{
-        {PC: 1, Val: int32(frameSize)},
+        {PC: size, Val: int32(frameSize)},
     }
 
     if self.NoPreempt {
         fn.PcUnsafePoint = &Pcdata{
-            {PC: 1, Val: PCDATA_UnsafePointUnsafe},
+            {PC: size, Val: PCDATA_UnsafePointUnsafe},
         }
     } else {
         fn.PcUnsafePoint = &Pcdata{
-            {PC: 1, Val: PCDATA_UnsafePointSafe},
+            {PC: size, Val: PCDATA_UnsafePointSafe},
         }
     }
 
     // NOTICE: suppose the function has only one stack map at index 0
     fn.PcStackMapIndex = &Pcdata{
-        {PC: 1, Val: 0},
+        {PC: size, Val: 0},
     }
 
     if argPtrs != nil {

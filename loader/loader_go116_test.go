@@ -91,7 +91,7 @@ func TestLoad(t *testing.T) {
     }
 
     fn.Pcsp = &Pcdata{
-        {PC: 0x04, Val: 24},
+        {PC: size, Val: 24},
     }
 
     fn.Pcline = &Pcdata{
@@ -102,15 +102,15 @@ func TestLoad(t *testing.T) {
     }
 
     fn.Pcfile = &Pcdata{
-        {PC: 1, Val: 0},
+        {PC: size, Val: 0},
     }
 
     fn.PcUnsafePoint = &Pcdata{
-        {PC: 1, Val: PCDATA_UnsafePointUnsafe},
+        {PC: size, Val: PCDATA_UnsafePointUnsafe},
     }
 
     fn.PcStackMapIndex = &Pcdata{
-        {PC: 1, Val: 0},
+        {PC: size, Val: 0},
     }
 
     args := rt.StackMapBuilder{}
