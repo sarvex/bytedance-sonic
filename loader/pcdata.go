@@ -2,7 +2,7 @@
  * @Author: duanyi.aster duanyi.aster@bytedance.com
  * @Date: 2023-04-19 11:46:53
  * @LastEditors: duanyi.aster duanyi.aster@bytedance.com
- * @LastEditTime: 2023-04-19 15:59:56
+ * @LastEditTime: 2023-04-19 18:16:18
  * @FilePath: /sonic/loader/pcdata.go
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -95,5 +95,7 @@ func (self Pcdata) MarshalBinary() (data []byte, err error) {
         sp = v.PC
         sv = v.Val
     }
+    // put 0 to indicate ends
+    data = append(data, 0)
     return
 }
