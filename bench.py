@@ -24,7 +24,7 @@ gbench_prefix = "SONIC_NO_ASYNC_GC=1 go test -benchmem -run=none "
 def run(cmd):
     print(cmd)
     if os.system(cmd):
-        print ("Failed to run cmd: %s"%(cmd))
+        print(f"Failed to run cmd: {cmd}")
         exit(1)
 
 def run_s(cmd):
@@ -60,20 +60,20 @@ def compare(args):
     if not current_branch:
         print ("Failed to detech current branch")
         return None
-    
+
     # get the current diff
     (fd, diff) = tempfile.mkstemp()
-    run("git diff > %s"%diff)
+    run(f"git diff > {diff}")
 
     # early return if currrent is main branch.
-    print ("Current branch: %s"%(current_branch))
+    print(f"Current branch: {current_branch}")
     if current_branch == "main":
         print ("Cannot compare at the main branch.Please build a new branch")
         return None
 
     # benchmark current branch    
     (fd, target) = tempfile.mkstemp(".target.txt")
-    run("%s %s ./... 2>&1 | tee %s" %(gbench_prefix, args, target))
+    run(f"{gbench_prefix} {args} ./... 2>&1 | tee {target}")
 
     # trying to switch to the latest main branch
     run("git checkout -- .")
@@ -83,17 +83,17 @@ def compare(args):
 
     # benchmark main branch
     (fd, main) = tempfile.mkstemp(".main.txt")
-    run("%s %s ./... 2>&1 | tee %s" %(gbench_prefix, args, main))
+    run(f"{gbench_prefix} {args} ./... 2>&1 | tee {main}")
 
     # diff the result
     # benchstat = "go get golang.org/x/perf/cmd/benchstat && go install golang.org/x/perf/cmd/benchstat"
-    run( "benchstat -sort=delta %s %s"%(main, target))
+    run(f"benchstat -sort=delta {main} {target}")
     run("git checkout -- .")
 
     # restore branch
     if current_branch != "main":
-        run("git checkout %s"%(current_branch))
-    run("patch -p1 < %s" % (diff))
+        run(f"git checkout {current_branch}")
+    run(f"patch -p1 < {diff}")
     return target
 
 def main():
@@ -107,28 +107,16 @@ def main():
     argparser.add_argument('-r', '--repeat_times', dest='count', required=False,
         help='benchmark the count')
     args = argparser.parse_args()
-    
-    if args.filter:
-        gbench_args = "-bench=%s"%(args.filter)
-    else:
-        gbench_args = "-bench=."
-        
+
+    gbench_args = f"-bench={args.filter}" if args.filter else "-bench=."
     if args.times:
-        gbench_args += " -benchtime=%s"%(args.times)
-        
-    if args.count:
-        gbench_args += " -count=%s"%(args.count)
-    else:
-        gbench_args += " -count=10"
+        gbench_args += f" -benchtime={args.times}"
 
-    if args.compare:
-        target = compare(gbench_args)
-    else:
-        target = None
-
+    gbench_args += f" -count={args.count}" if args.count else " -count=10"
+    target = compare(gbench_args) if args.compare else None
     if not target:
         (fd, target) = tempfile.mkstemp(".target.txt")
-        run("%s %s ./... 2>&1 | tee %s" %(gbench_prefix, gbench_args, target))
+        run(f"{gbench_prefix} {gbench_args} ./... 2>&1 | tee {target}")
 
 if __name__ == "__main__":
     main()
